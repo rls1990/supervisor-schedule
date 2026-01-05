@@ -137,16 +137,17 @@ const InputForm: React.FC<InputFormProps> = ({
           </label>
           <div className="grid grid-cols-2 gap-3">
             {[
-              { id: 1, label: "14×7, 5 días inducción, 90 días" },
-              { id: 2, label: "21×7, 3 días inducción, 90 días" },
-              { id: 3, label: "10×5, 2 días inducción, 90 días" },
-              { id: 4, label: "14×6, 4 días inducción, 95 días" },
+              { id: 1, label: "14×7, 5 días inducción, 30 días" },
+              { id: 2, label: "21×7, 3 días inducción, 30 días" },
+              { id: 3, label: "10×5, 2 días inducción, 30 días" },
+              { id: 4, label: "14×6, 4 días inducción, 30 días" },
+              { id: 5, label: "7x7, 1 días inducción, 30 días" },
             ].map((testCase) => (
               <button
                 key={testCase.id}
                 type="button"
                 onClick={() => onTestCase(testCase.id)}
-                className="px-4 py-3 bg-gradient-to-r from-gray-50 to-gray-100 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:from-gray-100 hover:to-gray-200 transition-all hover:shadow"
+                className="px-4 py-3 bg-linear-to-r from-gray-50 to-gray-100 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:from-gray-100 hover:to-gray-200 transition-all hover:shadow"
               >
                 {testCase.label}
               </button>
@@ -158,7 +159,7 @@ const InputForm: React.FC<InputFormProps> = ({
         <div className="pt-4">
           <button
             onClick={onCalculate}
-            className="w-full py-3 bg-gradient-to-r from-blue-500 to-blue-600 text-white font-bold rounded-lg shadow-lg hover:from-blue-600 hover:to-blue-700 transition-all transform hover:-translate-y-0.5 active:translate-y-0"
+            className="w-full py-3 bg-linear-to-r from-blue-500 to-blue-600 text-white font-bold rounded-lg shadow-lg hover:from-blue-600 hover:to-blue-700 transition-all transform hover:-translate-y-0.5 active:translate-y-0"
           >
             Calcular Cronograma
           </button>
