@@ -15,7 +15,7 @@ const ScheduleTable: React.FC<ScheduleTableProps> = ({ schedule }) => {
     (page + 1) * itemsPerPage
   );
 
-  const isOnFirstPage = page === 0;
+  // const isOnFirstPage = page === 0;
 
   // === Inferir inductionDays desde S1 (solo del inicio) ===
   let inductionDays = 0;
