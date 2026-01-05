@@ -15,7 +15,6 @@ const ScheduleTable: React.FC<ScheduleTableProps> = ({ schedule }) => {
     (page + 1) * itemsPerPage
   );
 
-  // Función para obtener clase de color según estado
   const getStateColor = (state: string) => {
     switch (state) {
       case "S":
@@ -35,12 +34,14 @@ const ScheduleTable: React.FC<ScheduleTableProps> = ({ schedule }) => {
     }
   };
 
-  // Función para obtener color del contador
   const getCountColor = (count: number) => {
     if (count === 2) return "bg-green-100 text-green-800 border-green-300";
     if (count === 3) return "bg-red-100 text-red-800 border-red-300";
     return "bg-yellow-100 text-yellow-800 border-yellow-300";
   };
+
+  // Extraer los días visibles para las columnas
+  const visibleDays = currentSchedule.map((s) => s.day);
 
   return (
     <div>
@@ -93,92 +94,109 @@ const ScheduleTable: React.FC<ScheduleTableProps> = ({ schedule }) => {
         </div>
       </div>
 
-      {/* Tabla */}
+      {/* Tabla transpuesta */}
       <div className="overflow-x-auto border border-gray-200 rounded-lg">
         <table className="min-w-full divide-y divide-gray-200">
-          <thead className="bg-gray-50">
+          <thead className="bg-gray-50 sticky top-0 z-10">
             <tr>
-              <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-r">
-                Día
+              <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-r bg-gray-50">
+                Rol
               </th>
-              <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-r">
-                S1
-              </th>
-              <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-r">
-                S2
-              </th>
-              <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-r">
-                S3
-              </th>
-              <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                # Perforando
-              </th>
+              {visibleDays.map((day) => (
+                <th
+                  key={day}
+                  className="px-2 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider border-r"
+                >
+                  {day}
+                </th>
+              ))}
             </tr>
           </thead>
-          <tbody className="bg-white divide-y divide-gray-200">
-            {currentSchedule.map((daySchedule) => (
-              <tr
-                key={daySchedule.day}
-                className={`${
-                  daySchedule.drillingCount !== 2
-                    ? "bg-red-50"
-                    : "hover:bg-gray-50"
-                }`}
-              >
-                <td className="px-4 py-3 text-sm font-medium text-gray-900 border-r">
-                  {daySchedule.day}
-                </td>
-                <td className="px-4 py-3 border-r">
+          <tbody className="divide-y divide-gray-200">
+            {/* Fila S1 */}
+            <tr>
+              <td className="px-4 py-3 font-medium text-gray-900 bg-gray-50 border-r">
+                S1
+              </td>
+              {currentSchedule.map((s) => (
+                <td key={`s1-${s.day}`} className="px-2 py-3 border-r">
                   <div className="flex justify-center">
                     <span
                       className={`inline-flex items-center justify-center w-8 h-8 rounded-lg font-bold ${getStateColor(
-                        daySchedule.s1
+                        s.s1
                       )}`}
                     >
-                      {daySchedule.s1}
+                      {s.s1}
                     </span>
                   </div>
                 </td>
-                <td className="px-4 py-3 border-r">
+              ))}
+            </tr>
+
+            {/* Fila S2 */}
+            <tr className="hover:bg-gray-50">
+              <td className="px-4 py-3 font-medium text-gray-900 bg-gray-50 border-r">
+                S2
+              </td>
+              {currentSchedule.map((s) => (
+                <td key={`s2-${s.day}`} className="px-2 py-3 border-r">
                   <div className="flex justify-center">
                     <span
                       className={`inline-flex items-center justify-center w-8 h-8 rounded-lg font-bold ${getStateColor(
-                        daySchedule.s2
+                        s.s2
                       )}`}
                     >
-                      {daySchedule.s2}
+                      {s.s2}
                     </span>
                   </div>
                 </td>
-                <td className="px-4 py-3 border-r">
+              ))}
+            </tr>
+
+            {/* Fila S3 */}
+            <tr className="hover:bg-gray-50">
+              <td className="px-4 py-3 font-medium text-gray-900 bg-gray-50 border-r">
+                S3
+              </td>
+              {currentSchedule.map((s) => (
+                <td key={`s3-${s.day}`} className="px-2 py-3 border-r">
                   <div className="flex justify-center">
                     <span
                       className={`inline-flex items-center justify-center w-8 h-8 rounded-lg font-bold ${getStateColor(
-                        daySchedule.s3
+                        s.s3
                       )}`}
                     >
-                      {daySchedule.s3}
+                      {s.s3}
                     </span>
                   </div>
                 </td>
-                <td className="px-4 py-3">
+              ))}
+            </tr>
+
+            {/* Fila # Perforando */}
+            <tr className="hover:bg-gray-50">
+              <td className="px-4 py-3 font-medium text-gray-900 bg-gray-50 border-r">
+                # Perforando
+              </td>
+              {currentSchedule.map((s) => (
+                <td key={`count-${s.day}`} className="px-2 py-3 border-r">
                   <div className="flex justify-center">
                     <span
                       className={`inline-flex items-center justify-center w-8 h-8 rounded-lg font-bold border ${getCountColor(
-                        daySchedule.drillingCount
+                        s.drillingCount
                       )}`}
                     >
-                      {daySchedule.drillingCount}
+                      {s.drillingCount}
                     </span>
                   </div>
                 </td>
-              </tr>
-            ))}
+              ))}
+            </tr>
           </tbody>
         </table>
       </div>
 
-      {/* Resumen */}
+      {/* Resumen (igual que antes) */}
       <div className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4">
         <div className="bg-blue-50 p-4 rounded-lg border border-blue-200">
           <h3 className="font-medium text-blue-800 mb-1">Regla 1</h3>
