@@ -15,6 +15,46 @@ const ScheduleTable: React.FC<ScheduleTableProps> = ({ schedule }) => {
     (page + 1) * itemsPerPage
   );
 
+  const isOnFirstPage = page === 0;
+
+  // === Inferir inductionDays desde S1 (solo del inicio) ===
+  let inductionDays = 0;
+  if (schedule.length > 1) {
+    for (let i = 1; i < schedule.length; i++) {
+      if (schedule[i].s1 === "I") {
+        inductionDays = i;
+      } else {
+        break;
+      }
+    }
+  }
+
+  // === Etiquetas y estilos ===
+  const getColumnLabel = (day: number): string => {
+    if (day === 0) return "S";
+    if (day <= inductionDays) return `I${day}`;
+    return `D${day - inductionDays}`;
+  };
+
+  const getColumnSubLabel = (day: number): string => {
+    if (day === 0) return "Subido";
+    if (day <= inductionDays) return "Ind";
+    return `${day - inductionDays}`;
+  };
+
+  const getColumnHeaderClass = (day: number): string => {
+    if (day === 0) return "bg-orange-200 text-orange-800";
+    if (day <= inductionDays) return "bg-green-700 text-white";
+    return "bg-blue-700 text-white";
+  };
+
+  const getCellClass = (day: number): string => {
+    if (day === 0) return "bg-orange-100";
+    if (day <= inductionDays) return "bg-green-100";
+    return "bg-blue-100";
+  };
+
+  // === Colores de estado (sin cambios) ===
   const getStateColor = (state: string) => {
     switch (state) {
       case "S":
@@ -34,14 +74,11 @@ const ScheduleTable: React.FC<ScheduleTableProps> = ({ schedule }) => {
     }
   };
 
-  const getCountColor = (count: number) => {
-    if (count === 2) return "bg-green-100 text-green-800 border-green-300";
-    if (count === 3) return "bg-red-100 text-red-800 border-red-300";
-    return "bg-yellow-100 text-yellow-800 border-yellow-300";
-  };
-
-  // Extraer los días visibles para las columnas
-  const visibleDays = currentSchedule.map((s) => s.day);
+  // const getCountColor = (count: number) => {
+  //   if (count === 2) return "bg-green-100 text-green-800 border-green-300";
+  //   if (count === 3) return "bg-red-100 text-red-800 border-red-300";
+  //   return "bg-yellow-100 text-yellow-800 border-yellow-300";
+  // };
 
   return (
     <div>
@@ -96,107 +133,135 @@ const ScheduleTable: React.FC<ScheduleTableProps> = ({ schedule }) => {
 
       {/* Tabla transpuesta */}
       <div className="overflow-x-auto border border-gray-200 rounded-lg">
-        <table className="min-w-full divide-y divide-gray-200">
-          <thead className="bg-gray-50 sticky top-0 z-10">
-            <tr>
-              <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-r bg-gray-50">
-                Rol
-              </th>
-              {visibleDays.map((day) => (
+        <table className="min-w-full">
+          <thead>
+            {/* Fila superior: S, I1, I2, D1, D2... (para todos los días) */}
+            <tr className="bg-gray-100">
+              <th className="px-3 py-2 border-r text-center font-medium text-gray-700 w-28"></th>
+              {currentSchedule.map((s) => (
                 <th
-                  key={day}
-                  className="px-2 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider border-r"
+                  key={`top-${s.day}`}
+                  className={`px-3 py-2 border-r text-center font-bold ${getColumnHeaderClass(
+                    s.day
+                  )}`}
                 >
-                  {day}
+                  {getColumnLabel(s.day)}
+                </th>
+              ))}
+            </tr>
+
+            {/* Fila inferior: solo en primera página */}
+            {/* {isOnFirstPage && (
+              
+            )} */}
+            <tr className="bg-gray-50">
+              <th className="px-3 py-1.5 border-r text-center text-sm font-medium text-gray-600 w-28"></th>
+              {currentSchedule.map((s) => (
+                <th
+                  key={`bottom-${s.day}`}
+                  className={`px-3 py-1.5 border-r text-center text-xs font-medium ${
+                    s.day === 0
+                      ? "bg-orange-200 text-orange-800"
+                      : s.day <= inductionDays
+                      ? "bg-green-700 text-white"
+                      : "bg-blue-700 text-white"
+                  }`}
+                >
+                  {getColumnSubLabel(s.day)}
                 </th>
               ))}
             </tr>
           </thead>
-          <tbody className="divide-y divide-gray-200">
-            {/* Fila S1 */}
+
+          <tbody>
+            {/* S1 */}
             <tr>
-              <td className="px-4 py-3 font-medium text-gray-900 bg-gray-50 border-r">
+              <td className="px-3 py-2 font-medium text-center bg-gray-100 border-r">
                 S1
               </td>
               {currentSchedule.map((s) => (
-                <td key={`s1-${s.day}`} className="px-2 py-3 border-r">
-                  <div className="flex justify-center">
-                    <span
-                      className={`inline-flex items-center justify-center w-8 h-8 rounded-lg font-bold ${getStateColor(
-                        s.s1
-                      )}`}
-                    >
-                      {s.s1}
-                    </span>
-                  </div>
+                <td
+                  key={`s1-${s.day}`}
+                  className={`px-2 py-2 text-center ${getCellClass(s.day)}`}
+                >
+                  <span
+                    className={`inline-flex items-center justify-center w-8 h-8 rounded-lg font-bold ${getStateColor(
+                      s.s1
+                    )}`}
+                  >
+                    {s.s1}
+                  </span>
                 </td>
               ))}
             </tr>
 
-            {/* Fila S2 */}
+            {/* S2 */}
             <tr className="hover:bg-gray-50">
-              <td className="px-4 py-3 font-medium text-gray-900 bg-gray-50 border-r">
+              <td className="px-3 py-2 font-medium text-center bg-gray-100 border-r">
                 S2
               </td>
               {currentSchedule.map((s) => (
-                <td key={`s2-${s.day}`} className="px-2 py-3 border-r">
-                  <div className="flex justify-center">
-                    <span
-                      className={`inline-flex items-center justify-center w-8 h-8 rounded-lg font-bold ${getStateColor(
-                        s.s2
-                      )}`}
-                    >
-                      {s.s2}
-                    </span>
-                  </div>
+                <td
+                  key={`s2-${s.day}`}
+                  className={`px-2 py-2 text-center ${getCellClass(s.day)}`}
+                >
+                  <span
+                    className={`inline-flex items-center justify-center w-8 h-8 rounded-lg font-bold ${getStateColor(
+                      s.s2
+                    )}`}
+                  >
+                    {s.s2}
+                  </span>
                 </td>
               ))}
             </tr>
 
-            {/* Fila S3 */}
+            {/* S3 */}
             <tr className="hover:bg-gray-50">
-              <td className="px-4 py-3 font-medium text-gray-900 bg-gray-50 border-r">
+              <td className="px-3 py-2 font-medium text-center bg-gray-100 border-r">
                 S3
               </td>
               {currentSchedule.map((s) => (
-                <td key={`s3-${s.day}`} className="px-2 py-3 border-r">
-                  <div className="flex justify-center">
-                    <span
-                      className={`inline-flex items-center justify-center w-8 h-8 rounded-lg font-bold ${getStateColor(
-                        s.s3
-                      )}`}
-                    >
-                      {s.s3}
-                    </span>
-                  </div>
+                <td
+                  key={`s3-${s.day}`}
+                  className={`px-2 py-2 text-center ${getCellClass(s.day)}`}
+                >
+                  <span
+                    className={`inline-flex items-center justify-center w-8 h-8 rounded-lg font-bold ${getStateColor(
+                      s.s3
+                    )}`}
+                  >
+                    {s.s3}
+                  </span>
                 </td>
               ))}
             </tr>
 
-            {/* Fila # Perforando */}
-            <tr className="hover:bg-gray-50">
-              <td className="px-4 py-3 font-medium text-gray-900 bg-gray-50 border-r">
+            {/* # Perforando */}
+            {/* <tr className="hover:bg-gray-50">
+              <td className="px-3 py-2 font-medium text-center bg-gray-100 border-r">
                 # Perforando
               </td>
               {currentSchedule.map((s) => (
-                <td key={`count-${s.day}`} className="px-2 py-3 border-r">
-                  <div className="flex justify-center">
-                    <span
-                      className={`inline-flex items-center justify-center w-8 h-8 rounded-lg font-bold border ${getCountColor(
-                        s.drillingCount
-                      )}`}
-                    >
-                      {s.drillingCount}
-                    </span>
-                  </div>
+                <td
+                  key={`count-${s.day}`}
+                  className={`px-2 py-2 text-center ${getCellClass(s.day)}`}
+                >
+                  <span
+                    className={`inline-flex items-center justify-center w-8 h-8 rounded-lg font-bold border ${getCountColor(
+                      s.drillingCount
+                    )}`}
+                  >
+                    {s.drillingCount}
+                  </span>
                 </td>
               ))}
-            </tr>
+            </tr> */}
           </tbody>
         </table>
       </div>
 
-      {/* Resumen (igual que antes) */}
+      {/* Resumen */}
       <div className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4">
         <div className="bg-blue-50 p-4 rounded-lg border border-blue-200">
           <h3 className="font-medium text-blue-800 mb-1">Regla 1</h3>
