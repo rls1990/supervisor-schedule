@@ -13,7 +13,7 @@ const SupervisorLegend: React.FC = () => {
   return (
     <div className="border border-gray-200 rounded-lg p-4">
       <h3 className="font-medium text-gray-700 mb-3">Leyenda de Estados</h3>
-      <div className="grid grid-cols-2 gap-3">
+      <div className="grid sm:grid-cols-3 lg:grid-cols-2 gap-3">
         {legendItems.map((item) => (
           <div key={item.state} className="flex items-center">
             <div
@@ -33,7 +33,7 @@ const SupervisorLegend: React.FC = () => {
           </div>
         ))}
       </div>
-      <div className="mt-4 pt-4 border-t border-gray-200">
+      {/* <div className="mt-4 pt-4 border-t border-gray-200">
         <div className="flex items-center justify-between">
           <div className="flex items-center">
             <div className="w-6 h-6 rounded-lg bg-green-100 border border-green-300 flex items-center justify-center mr-2">
@@ -56,7 +56,7 @@ const SupervisorLegend: React.FC = () => {
             <span className="text-sm text-gray-600">3 perforando (error)</span>
           </div>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };

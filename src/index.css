@@ -1,1 +1,9 @@
 @import "tailwindcss";
+
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  /* padding: 2rem; */
+  @apply p-6 lg:p-9;
+  text-align: center;
+}

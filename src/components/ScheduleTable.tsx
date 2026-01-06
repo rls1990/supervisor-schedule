@@ -45,7 +45,7 @@ const ScheduleTable: React.FC<ScheduleTableProps> = ({ schedule }) => {
   return (
     <div>
       {/* Controles de paginación */}
-      <div className="flex justify-between items-center mb-4">
+      <div className="flex justify-between items-center mb-4 sm:flex-row flex-col">
         <div className="text-sm text-gray-600">
           Mostrando días {page * itemsPerPage + 1} a{" "}
           {Math.min((page + 1) * itemsPerPage, schedule.length)} de{" "}

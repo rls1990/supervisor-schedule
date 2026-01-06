@@ -1,4 +1,3 @@
-import "./App.css";
 import { useState } from "react";
 import InputForm from "./components/InputForm";
 import ScheduleTable from "./components/ScheduleTable";
@@ -38,9 +37,9 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 p-4 md:p-8">
+    <div className="min-h-screen bg-gray-50 p-4 md:p-8">
       <header className="mb-8 text-center">
-        <h1 className="text-3xl md:text-4xl font-bold text-gray-800 mb-2">
+        <h1 className="text-3xl md:text-4xl font-bold text-gray-800 mb-2 ">
           Cronograma de Supervisores Mineros
         </h1>
         <p className="text-gray-600">
@@ -172,9 +171,6 @@ function App() {
 
       <footer className="mt-12 text-center text-gray-500 text-sm">
         <p>Prueba Técnica - Algoritmo de Cronograma de Supervisores</p>
-        <p className="mt-1">
-          Siempre 2 perforando • Nunca 3 • Nunca 1 (después de S3)
-        </p>
       </footer>
     </div>
   );

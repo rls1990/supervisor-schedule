@@ -30,7 +30,7 @@ const InputForm: React.FC<InputFormProps> = ({
           <label className="block text-sm font-medium text-gray-700 mb-2">
             Régimen de Trabajo (N×M)
           </label>
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid sm:grid-cols-2 gap-4">
             <div>
               <label className="block text-xs text-gray-500 mb-1">
                 Días de trabajo (N)
@@ -74,7 +74,7 @@ const InputForm: React.FC<InputFormProps> = ({
           <label className="block text-sm font-medium text-gray-700 mb-2">
             Días de Inducción
           </label>
-          <div className="flex space-x-2">
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-2">
             {[1, 2, 3, 4, 5].map((days) => (
               <button
                 key={days}
@@ -116,7 +116,7 @@ const InputForm: React.FC<InputFormProps> = ({
           <div className="mt-2">
             <input
               type="number"
-              min="10"
+              min="30"
               max="365"
               value={config.totalDrillingDays}
               onChange={(e) =>
@@ -135,7 +135,7 @@ const InputForm: React.FC<InputFormProps> = ({
           <label className="block text-sm font-medium text-gray-700 mb-2">
             Casos de Prueba Obligatorios
           </label>
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid sm:grid-cols-2 gap-3">
             {[
               { id: 1, label: "14×7, 5 días inducción, 30 días" },
               { id: 2, label: "21×7, 3 días inducción, 30 días" },
