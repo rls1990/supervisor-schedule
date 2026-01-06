@@ -137,11 +137,10 @@ const InputForm: React.FC<InputFormProps> = ({
           </label>
           <div className="grid sm:grid-cols-2 gap-3">
             {[
-              { id: 1, label: "14×7, 5 días inducción, 30 días" },
-              { id: 2, label: "21×7, 3 días inducción, 30 días" },
-              { id: 3, label: "10×5, 2 días inducción, 30 días" },
-              { id: 4, label: "14×6, 4 días inducción, 30 días" },
-              { id: 5, label: "7x7, 1 días inducción, 30 días" },
+              { id: 1, label: "14×7, 5 días inducción, 90 días" },
+              { id: 2, label: "21×7, 3 días inducción, 90 días" },
+              { id: 3, label: "10×5, 2 días inducción, 90 días" },
+              { id: 4, label: "14×6, 4 días inducción, 950 días" },
             ].map((testCase) => (
               <button
                 key={testCase.id}

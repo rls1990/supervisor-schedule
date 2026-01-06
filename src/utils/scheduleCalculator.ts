@@ -223,11 +223,10 @@ export function calculateSchedule(config: ScheduleConfig): ScheduleResult {
 // Función para casos de prueba específicos (sin cambios)
 export function generateTestSchedule(caseNumber: number): ScheduleConfig {
   const cases = [
-    { workDays: 14, restDays: 7, inductionDays: 5, totalDrillingDays: 30 },
-    { workDays: 21, restDays: 7, inductionDays: 3, totalDrillingDays: 30 },
-    { workDays: 10, restDays: 5, inductionDays: 2, totalDrillingDays: 30 },
-    { workDays: 14, restDays: 6, inductionDays: 4, totalDrillingDays: 30 },
-    { workDays: 7, restDays: 7, inductionDays: 1, totalDrillingDays: 30 },
+    { workDays: 14, restDays: 7, inductionDays: 5, totalDrillingDays: 90 },
+    { workDays: 21, restDays: 7, inductionDays: 3, totalDrillingDays: 90 },
+    { workDays: 10, restDays: 5, inductionDays: 2, totalDrillingDays: 90 },
+    { workDays: 14, restDays: 6, inductionDays: 4, totalDrillingDays: 950 },
   ];
 
   return cases[caseNumber - 1] || cases[0];
